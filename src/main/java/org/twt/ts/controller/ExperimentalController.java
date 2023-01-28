@@ -10,7 +10,6 @@ import org.twt.ts.dto.Result;
 @RequestMapping("/test")
 public class ExperimentalController {
 
-
     @RequestMapping("/ping")
     public Result pong() {
         return Result.success("pong");
