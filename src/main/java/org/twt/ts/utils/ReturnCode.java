@@ -1,4 +1,4 @@
-package org.twt.ts.dto;
+package org.twt.ts.utils;
 
 /*
 code
@@ -22,6 +22,8 @@ public enum ReturnCode {
     CaptchaError(30002, "Captcha Error"),
     UsernamePasswordNotMatch(30003, "username or password is not correct"),
     PasswordError(30004, "Password Error"),
+    WrongSecurityAnswer(30005, "Security Answer Error"),
+    UsernameExist(30006, "Username Exist"),
 
     // Error
     UnknownError(50000, "Server Unknown Error"),

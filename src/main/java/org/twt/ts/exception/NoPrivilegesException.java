@@ -1,9 +1,9 @@
 package org.twt.ts.exception;
 
-import org.twt.ts.dto.ReturnCode;
+import org.twt.ts.utils.ReturnCode;
 
 public class NoPrivilegesException extends AuthException{
-    NoPrivilegesException() {
+    public NoPrivilegesException() {
         this.code = ReturnCode.NoPrivileges;
     }
 }

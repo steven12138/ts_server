@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@Builder
 public class Account {
 
     @Column(name = "id")
@@ -18,7 +19,7 @@ public class Account {
     @Id
     private int id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -30,6 +31,12 @@ public class Account {
     @Column(name = "isForbidden", nullable = false)
     private boolean isForbidden = false;
 
-    @Column(name = "permission",nullable = false)
+    @Column(name = "permission", nullable = false)
     private int permission = 0;
+
+    @Column(name = "security_question", nullable = false)
+    private String securityQuestion;
+
+    @Column(name = "security_answer", nullable = false)
+    private String securityAnswer;
 }

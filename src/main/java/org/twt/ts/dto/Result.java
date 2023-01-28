@@ -1,6 +1,7 @@
 package org.twt.ts.dto;
 
 import lombok.*;
+import org.twt.ts.utils.ReturnCode;
 
 @Setter
 @Getter

@@ -4,16 +4,18 @@ import org.twt.ts.dto.BasicUserInfo;
 import org.twt.ts.dto.PasswordPair;
 import org.twt.ts.dto.RegisterUser;
 import org.twt.ts.dto.User;
-import org.twt.ts.exception.PasswordNotMatchException;
-import org.twt.ts.exception.UserForbiddenException;
-import org.twt.ts.exception.UsernamePasswordNotMatchException;
+import org.twt.ts.exception.*;
 
 public interface AuthService {
     BasicUserInfo login(User user) throws UsernamePasswordNotMatchException, UserForbiddenException;
 
 
-    void register(RegisterUser registerUser);
+    void register(RegisterUser registerUser) throws UsernameExistException;
 
-    void modifyPassword(PasswordPair passwordPair) throws PasswordNotMatchException;
+    void modifyPassword(PasswordPair passwordPair) throws PasswordNotMatchException, NoPrivilegesException;
+
+    void modifyPassword(String securityAnswer, String newPassword) throws SecurityAnswerException, NoPrivilegesException;
+
+    String getSecurityQuestion() throws NoPrivilegesException;
 
 }
