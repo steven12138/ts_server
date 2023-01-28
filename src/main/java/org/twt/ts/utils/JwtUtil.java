@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class jwtUtil {
+public class JwtUtil {
     private static final long expired_time = 1000 * 60 * 60 * 2;
     @Value("${jwt.token}")
     private String secret;

@@ -30,6 +30,6 @@ public class Account {
     @Column(name = "isForbidden", nullable = false)
     private boolean isForbidden = false;
 
-    @Column(name = "premission",nullable = false)
-    private int premission = 0;
+    @Column(name = "permission",nullable = false)
+    private int permission = 0;
 }
