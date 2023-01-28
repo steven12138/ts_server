@@ -15,7 +15,7 @@ import org.twt.ts.utils.JwtUtil;
 
 import javax.annotation.Resource;
 
-@Service
+@Service("asi")
 public class AuthServiceImpl implements AuthService {
 
     @Resource
@@ -41,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
                 jwtUtil.generateToken(target)
         );
     }
+
 
     @Override
     public void register(RegisterUser registerUser) {

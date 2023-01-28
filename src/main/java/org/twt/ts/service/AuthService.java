@@ -14,4 +14,5 @@ public interface AuthService {
     void register(RegisterUser registerUser);
 
     void modifyPassword(String oldPassword, String newPassword) throws PasswordNotMatchException;
+
 }

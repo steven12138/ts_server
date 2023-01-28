@@ -16,4 +16,7 @@ spring:
     name: ts
 
 jwt:
+  name: Authorization
+  expired: 7200000
   token: 123456
+  prefix: Bearer
