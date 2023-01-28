@@ -1,21 +1,21 @@
-package org.twt.ts.Controller;
+package org.twt.ts.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.twt.ts.DTO.Response;
-import org.twt.ts.DTO.ReturnCode;
+import org.twt.ts.dto.Result;
+import org.twt.ts.dto.ReturnCode;
 
 @RestController
 @RequestMapping("auth")
 public class AuthController {
 
     @PostMapping("login")
-    Response login() {
+    Result login() {
         boolean success = true;
         if (success)
-            return Response.success("Login Success");
+            return Result.success("Login Success");
         else
-            return Response.error(ReturnCode.UsernamePasswordNotMatch);
+            return Result.error(ReturnCode.UsernamePasswordNotMatch);
     }
 }

@@ -1,4 +1,4 @@
-package org.twt.ts.DTO;
+package org.twt.ts.dto;
 
 /*
 code

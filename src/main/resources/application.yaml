@@ -1,2 +1,19 @@
 server:
   port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/ts
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: test
+    password: 123456
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+  application:
+    name: ts
+
+jwt:
+  token: 123456

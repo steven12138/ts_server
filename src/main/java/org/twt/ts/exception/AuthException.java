@@ -1,4 +1,4 @@
-package org.twt.ts.Exception;
+package org.twt.ts.exception;
 
 public class AuthException extends BaseException{
 }
