@@ -1,5 +1,6 @@
 package org.twt.ts.service.Impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private UserInfoUtil userInfoUtil;
 
     @Override
-    public BasicUserInfo login(User user) throws UsernamePasswordNotMatchException, UserForbiddenException {
+    public BasicUserInfo login(@NotNull User user) throws UsernamePasswordNotMatchException, UserForbiddenException {
         Account target = accountRepo.findAccountByUsername(user.getUsername())
                 .orElseThrow(UsernamePasswordNotMatchException::new);
         if (!passwordEncoder.matches(user.getPassword(), target.getPassword()))
@@ -61,15 +62,9 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private Account getCurrentUser() throws NoPrivilegesException {
-        int id = userInfoUtil.getUserId();
-        return accountRepo.findAccountById(id)
-                .orElseThrow(NoPrivilegesException::new);
-    }
-
     @Override
-    public void modifyPassword(PasswordPair passwordPair) throws PasswordNotMatchException, NoPrivilegesException {
-        Account target = getCurrentUser();
+    public void modifyPassword(@NotNull PasswordPair passwordPair) throws PasswordNotMatchException, NoPrivilegesException {
+        Account target = userInfoUtil.getCurrent();
 
         if (!passwordEncoder.matches(passwordPair.getOldPassword(), target.getPassword()))
             throw new PasswordNotMatchException();
@@ -79,8 +74,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void modifyPassword(String securityAnswer, String newPassword) throws SecurityAnswerException, NoPrivilegesException {
-        Account target = getCurrentUser();
+    public void modifyPassword(@NotNull String securityAnswer, String newPassword) throws SecurityAnswerException, NoPrivilegesException {
+        Account target = userInfoUtil.getCurrent();
 
         if (!securityAnswer.equals(target.getSecurityAnswer())) throw new SecurityAnswerException();
 
@@ -91,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String getSecurityQuestion() throws NoPrivilegesException {
-        Account target = getCurrentUser();
+        Account target = userInfoUtil.getCurrent();
         return target.getSecurityQuestion();
     }
 
