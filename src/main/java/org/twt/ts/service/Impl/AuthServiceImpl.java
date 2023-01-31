@@ -1,5 +1,6 @@
 package org.twt.ts.service.Impl;
 
+import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,7 +17,6 @@ import org.twt.ts.service.AuthService;
 import org.twt.ts.utils.JwtUtil;
 import org.twt.ts.utils.UserInfoUtil;
 
-import javax.annotation.Resource;
 
 @Service("asi")
 public class AuthServiceImpl implements AuthService {

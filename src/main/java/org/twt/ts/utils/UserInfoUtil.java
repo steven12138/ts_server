@@ -1,13 +1,13 @@
 package org.twt.ts.utils;
 
 import io.jsonwebtoken.Claims;
+import jakarta.annotation.Resource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.model.Account;
 import org.twt.ts.model.repository.AccountRepo;
 
-import javax.annotation.Resource;
 
 @Component
 public class UserInfoUtil {

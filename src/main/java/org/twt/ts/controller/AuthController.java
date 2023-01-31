@@ -1,11 +1,11 @@
 package org.twt.ts.controller;
 
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.twt.ts.dto.*;
 import org.twt.ts.exception.*;
 import org.twt.ts.service.AuthService;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
