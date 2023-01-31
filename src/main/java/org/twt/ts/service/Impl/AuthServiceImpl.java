@@ -1,6 +1,7 @@
 package org.twt.ts.service.Impl;
 
 import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -63,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void modifyPassword(@NotNull PasswordPair passwordPair) throws PasswordNotMatchException, NoPrivilegesException {
         Account target = userInfoUtil.getCurrent();
 
@@ -74,6 +76,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void modifyPassword(@NotNull String securityAnswer, String newPassword) throws SecurityAnswerException, NoPrivilegesException {
         Account target = userInfoUtil.getCurrent();
 
