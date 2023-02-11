@@ -1,8 +1,14 @@
 package org.twt.ts.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "friend_request")
 public class FriendRequest {
     @Id

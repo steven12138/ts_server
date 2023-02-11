@@ -1,6 +1,9 @@
 package org.twt.ts.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.twt.ts.utils.ReturnCode;
 
 @Setter
@@ -23,6 +26,10 @@ public class Result {
 
     public static Result success(Object data) {
         return new Result(ReturnCode.Success, data);
+    }
+
+    public static Result success() {
+        return new Result(ReturnCode.Success, "success");
     }
 
     public static Result error(ReturnCode error) {
