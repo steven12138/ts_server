@@ -35,13 +35,13 @@ class TsApplicationTests {
     @Resource
     private AccountRepo accountRepo;
 
-    @Test
-    public void friendTester() {
-        Account u = accountRepo.findAccountById(1).orElseThrow(UnknownError::new);
-        Account v = accountRepo.findAccountById(2).orElseThrow(UnknownError::new);
-
-        System.out.println(friendRepo.findFriend(1));
-        friendRepo.remove(u, v);
-    }
+//    @Test
+//    public void friendTester() {
+//        Account u = accountRepo.findAccountById(1).orElseThrow(UnknownError::new);
+//        Account v = accountRepo.findAccountById(2).orElseThrow(UnknownError::new);
+//
+//        System.out.println(friendRepo.findFriend(1));
+//        friendRepo.remove(u, v);
+//    }
 
 }

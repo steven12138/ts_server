@@ -51,7 +51,7 @@ public class MessageController {
         String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
         if (!acceptExt.contains(ext)) return Result.error(ReturnCode.InvalidParams);
         String name = UUID.randomUUID() + "." + ext;
-        File dest = new File(filePath + "\\" + name);
+        File dest = new File(filePath + "/" + name);
         file.transferTo(dest);
 
         messageService.sendMessage(name, messageInfo);

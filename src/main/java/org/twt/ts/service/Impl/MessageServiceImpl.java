@@ -2,6 +2,7 @@ package org.twt.ts.service.Impl;
 
 import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import org.twt.ts.dto.MessageInfo;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.model.Account;
@@ -14,6 +15,7 @@ import org.twt.ts.utils.UserInfoUtil;
 
 import java.util.List;
 
+@Service
 public class MessageServiceImpl implements MessageService {
 
     @Resource

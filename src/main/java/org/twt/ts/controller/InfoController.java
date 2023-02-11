@@ -47,7 +47,7 @@ public class InfoController {
         if (!acceptExt.contains(ext)) return Result.error(ReturnCode.InvalidParams);
         Account target = userInfoUtil.getCurrent();
         String name = target.getId() + "." + ext;
-        File dest = new File(filePath + "\\" + name);
+        File dest = new File(filePath + "/" + name);
         file.transferTo(dest);
         target.setAvatar(name);
         accountRepo.save(target);
