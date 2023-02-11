@@ -29,16 +29,16 @@ public class AuthController {
         return Result.success("Password Reset Success");
     }
 
-    @GetMapping("/forgetPassword")
-    Result getSecurityQuestion() throws NoPrivilegesException {
+    @GetMapping("/forgetPassword/{id}")
+    Result getSecurityQuestion(@PathVariable int id) throws UsernameExistException {
         Map<String, String> result = new HashMap<>();
-        result.put("question", authService.getSecurityQuestion());
+        result.put("question", authService.getSecurityQuestion(id));
         return Result.success(result);
     }
 
-    @PostMapping("/forgetPassword")
-    Result resetPassword(@RequestBody SecurityAnswerPair pair) throws NoPrivilegesException, SecurityAnswerException {
-        authService.modifyPassword(pair.getAnswer(), pair.getNewPassword());
+    @PostMapping("/forgetPassword/{id}")
+    Result resetPassword(@RequestBody SecurityAnswerPair pair, @PathVariable int id) throws SecurityAnswerException, UsernameExistException {
+        authService.modifyPassword(id, pair.getAnswer(), pair.getNewPassword());
         return Result.success("Password Reset Success");
     }
 

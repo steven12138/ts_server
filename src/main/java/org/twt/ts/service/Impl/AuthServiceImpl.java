@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.twt.ts.dto.BasicUserInfo;
@@ -77,8 +78,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void modifyPassword(@NotNull String securityAnswer, String newPassword) throws SecurityAnswerException, NoPrivilegesException {
-        Account target = userInfoUtil.getCurrent();
+    public void modifyPassword(int id, @NotNull String securityAnswer, String newPassword) throws SecurityAnswerException, UsernameExistException {
+        Account target = accountRepo.findAccountById(id)
+                .orElseThrow(UsernameExistException::new);
 
         if (!securityAnswer.equals(target.getSecurityAnswer())) throw new SecurityAnswerException();
 
@@ -88,8 +90,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String getSecurityQuestion() throws NoPrivilegesException {
-        Account target = userInfoUtil.getCurrent();
+    public String getSecurityQuestion(int id) throws UsernameExistException {
+        Account target = accountRepo.findAccountById(id)
+                .orElseThrow(UsernameExistException::new);
         return target.getSecurityQuestion();
     }
 

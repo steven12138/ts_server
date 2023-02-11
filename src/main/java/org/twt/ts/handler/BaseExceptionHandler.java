@@ -22,6 +22,7 @@ public class BaseExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result BaseException(Exception e) {
+        e.printStackTrace();
         return new Result(
                 ReturnCode.UnknownError,
                 e.getClass().getName() + "\n" + e.getMessage()

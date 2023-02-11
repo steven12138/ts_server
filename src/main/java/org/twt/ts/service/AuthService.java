@@ -14,8 +14,8 @@ public interface AuthService {
 
     void modifyPassword(PasswordPair passwordPair) throws PasswordNotMatchException, NoPrivilegesException;
 
-    void modifyPassword(String securityAnswer, String newPassword) throws SecurityAnswerException, NoPrivilegesException;
+    void modifyPassword(int id, String securityAnswer, String newPassword) throws SecurityAnswerException, UsernameExistException;
 
-    String getSecurityQuestion() throws NoPrivilegesException;
+    String getSecurityQuestion(int id) throws UsernameExistException;
 
 }
