@@ -34,7 +34,7 @@ public class Message {
     private Account sender;
 
     @Column(name = "date")
-    private LocalDateTime dateTime;
+    private LocalDateTime dateTime = LocalDateTime.now();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Account> disabled;
