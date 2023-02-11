@@ -19,6 +19,11 @@ public class FriendController {
         return Result.success(friendService.getFriendList());
     }
 
+    @GetMapping("/request")
+    public Result getRequestList() {
+        return Result.success(friendService.getRequest());
+    }
+
     @PostMapping("requestFriend/{id}")
     public Result requestFriend(@PathVariable String id) {
         return Result.success("");
