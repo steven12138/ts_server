@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.twt.ts.dto.Result;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.model.repository.AccountRepo;
+import org.twt.ts.service.MessageService;
 import org.twt.ts.utils.UserInfoUtil;
 
 import java.io.IOException;
@@ -16,9 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("message")
 public class MessageController {
+
+    @Resource
+    private MessageService messageService;
+
     @GetMapping("list")
-    public Result getList() {
-        return Result.success("");
+    public Result getList() throws NoPrivilegesException {
+        return Result.success(messageService.getList());
     }
 
     @Value("${message.path}")
@@ -47,4 +52,6 @@ public class MessageController {
 //        accountRepo.save(target);
         return Result.success("success");
     }
+
+
 }
