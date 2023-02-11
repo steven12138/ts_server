@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-
 @Setter
 @Getter
 @AllArgsConstructor
@@ -39,4 +38,7 @@ public class Account {
 
     @Column(name = "security_answer", nullable = false)
     private String securityAnswer;
+
+    @Column(name = "avatar")
+    private String avatar;
 }
