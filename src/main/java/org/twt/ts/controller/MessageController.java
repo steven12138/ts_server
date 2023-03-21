@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.twt.ts.dto.MessageInfo;
+import org.twt.ts.dto.PrivateMessageInfo;
 import org.twt.ts.dto.Result;
+import org.twt.ts.exception.InvalidParamsException;
 import org.twt.ts.exception.NoPrivilegesException;
-import org.twt.ts.model.repository.AccountRepo;
+import org.twt.ts.exception.UserNotExistException;
 import org.twt.ts.service.MessageService;
 import org.twt.ts.utils.FileTypeUtil;
 import org.twt.ts.utils.ReturnCode;
-import org.twt.ts.utils.UserInfoUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,24 +40,42 @@ public class MessageController {
     @Value("${message.acceptExt}")
     private List<String> acceptExt;
 
-    @Resource
-    private UserInfoUtil userInfoUtil;
-    @Resource
-    private AccountRepo accountRepo;
+
+    String verifyAndSaveFile(MultipartFile file) throws IOException, InvalidParamsException {
+        if (file.isEmpty()) Result.error(ReturnCode.UnknownError);
+        String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
+        if (!acceptExt.contains(ext)) throw new InvalidParamsException();
+        String path = filePath + "/" + UUID.randomUUID() + "." + ext;
+        File dest = new File(path);
+        file.transferTo(dest);
+        return path;
+    }
 
     @PostMapping("send")
     @Transactional
-    public Result sendMessage(@RequestParam("file") MultipartFile file, @RequestParam("data") MessageInfo messageInfo) throws IOException, NoPrivilegesException {
-        if (file.isEmpty()) Result.error(ReturnCode.UnknownError);
-        String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
-        if (!acceptExt.contains(ext)) return Result.error(ReturnCode.InvalidParams);
-        String name = UUID.randomUUID() + "." + ext;
-        File dest = new File(filePath + "/" + name);
-        file.transferTo(dest);
+    public Result sendMessage(@RequestParam("file") MultipartFile file, @RequestParam("data") MessageInfo messageInfo) throws IOException, InvalidParamsException, NoPrivilegesException {
+        String path = verifyAndSaveFile(file);
 
-        messageService.sendMessage(name, messageInfo);
+        messageService.sendMessage(path, messageInfo);
 
-        return Result.success("success");
+        return Result.success();
+    }
+
+    @PostMapping("sendPrivateMessage")
+    @Transactional
+    public Result sendPrivateMessage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("data") PrivateMessageInfo messageInfo) throws IOException, InvalidParamsException, NoPrivilegesException, UserNotExistException {
+        String path = verifyAndSaveFile(file);
+        messageService.sendPrivateMessage(path, messageInfo);
+        return Result.success();
+    }
+
+    @GetMapping("privateList")
+    public Result getPrivateMessageList() throws NoPrivilegesException {
+        return Result.success(
+                messageService.getPrivateList()
+        );
     }
 
 

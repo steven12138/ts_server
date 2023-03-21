@@ -40,8 +40,8 @@ public class InfoController {
     @Resource
     private AccountRepo accountRepo;
 
-    @PostMapping("send")
-    public Result sendMessage(@RequestParam("file") MultipartFile file) throws IOException, NoPrivilegesException {
+    @PostMapping("uploadAvatar")
+    public Result uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException, NoPrivilegesException {
         if (file.isEmpty()) Result.error(ReturnCode.UnknownError);
         String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
         if (!acceptExt.contains(ext)) return Result.error(ReturnCode.InvalidParams);

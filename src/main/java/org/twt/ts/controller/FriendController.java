@@ -1,6 +1,7 @@
 package org.twt.ts.controller;
 
 import jakarta.annotation.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.twt.ts.dto.RequestInfo;
 import org.twt.ts.dto.Result;

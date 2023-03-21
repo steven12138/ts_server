@@ -24,6 +24,7 @@ public enum ReturnCode {
     PasswordError(30004, "Password Error"),
     WrongSecurityAnswer(30005, "Security Answer Error"),
     UsernameExist(30006, "Username Exist"),
+    UserNotExist(30007, "User Id Not Exist!"),
 
     // Error
     UnknownError(50000, "Server Unknown Error"),

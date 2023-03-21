@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.twt.ts.dto.BasicUserInfo;
@@ -44,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
 
         if (target.isForbidden()) throw new UserForbiddenException();
         return new BasicUserInfo(
+                target.getId(),
                 target.getUsername(),
                 target.getNickname(),
                 jwtUtil.generateToken(target)
