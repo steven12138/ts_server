@@ -18,6 +18,7 @@ public class AuthController {
 
     @PostMapping("/login")
     Result login(@RequestBody User user) throws UsernamePasswordNotMatchException, UserForbiddenException {
+        System.out.println(user);
         BasicUserInfo accountDetail = authService.login(user);
         return Result.success(accountDetail);
     }

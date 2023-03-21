@@ -33,9 +33,22 @@ public class FriendController {
         return Result.success();
     }
 
+    @GetMapping("Search")
+    public Result searchFriend(@RequestParam(name = "q") String keywords) throws NoPrivilegesException {
+        return Result.success(friendService.searchFriend(keywords));
+    }
+
+
     @PostMapping("acceptRequest")
     public Result acceptRequest(@RequestBody int requestId) throws InvalidArgument {
         friendService.acceptRequest(requestId);
         return Result.success();
     }
+
+    @PostMapping("remove")
+    public Result remove(@RequestBody int requestId) {
+        friendService.removeFriend(requestId);
+        return Result.success();
+    }
+
 }

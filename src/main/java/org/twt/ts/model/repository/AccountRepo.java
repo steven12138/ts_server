@@ -15,4 +15,6 @@ public interface AccountRepo extends JpaRepository<Account, Integer> {
 
     List<Account> findAccountsByIdIn(Collection<Integer> id);
 
+    List<Account> findAccountsByNicknameLike(String pattern);
+
 }

@@ -12,10 +12,13 @@ import java.util.List;
 public interface FriendService {
     List<Account> getFriendList() throws NoPrivilegesException;
 
-    void requestFriend(int id,String desc) throws NoPrivilegesException, UsernameExistException;
+    void requestFriend(int id, String desc) throws NoPrivilegesException, UsernameExistException;
 
     void acceptRequest(int requestId) throws InvalidArgument;
 
     List<FriendRequest> getRequest() throws NoPrivilegesException;
-    
+
+    List<Account> searchFriend(String keywords);
+
+    void removeFriend(int Target);
 }

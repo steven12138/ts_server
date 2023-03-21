@@ -61,4 +61,14 @@ public class FriendServiceImpl implements FriendService {
     public List<FriendRequest> getRequest() throws NoPrivilegesException {
         return requestRepo.findFriendRequestsByFrom(userInfoUtil.getCurrent());
     }
+
+    @Override
+    public List<Account> searchFriend(String keywords) {
+        return accountRepo.findAccountsByNicknameLike(keywords);
+    }
+
+    @Override
+    public void removeFriend(int target) {
+        friendRepo.remove(userInfoUtil.getUserId(), target);
+    }
 }
