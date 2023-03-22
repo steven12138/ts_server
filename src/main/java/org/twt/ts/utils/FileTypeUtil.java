@@ -1,7 +1,5 @@
 package org.twt.ts.utils;
 
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -71,7 +69,7 @@ public class FileTypeUtil {
     }
 
     public static String getFileTypeBySuffix(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public static String getFileTypeByMagicNumber(InputStream inputStream) {

@@ -1,7 +1,6 @@
 package org.twt.ts.controller;
 
 import jakarta.annotation.Resource;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.twt.ts.dto.RequestInfo;
 import org.twt.ts.dto.Result;
@@ -35,7 +34,7 @@ public class FriendController {
     }
 
     @GetMapping("Search")
-    public Result searchFriend(@RequestParam(name = "q") String keywords) throws NoPrivilegesException {
+    public Result searchFriend(@RequestParam(name = "q") String keywords) {
         return Result.success(friendService.searchFriend(keywords));
     }
 

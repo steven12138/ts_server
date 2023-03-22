@@ -47,7 +47,7 @@ public class AssetsController {
     }
 
     @GetMapping(value = "media/{path}")
-    public void getMedia(HttpServletResponse response, @PathVariable(name = "path") String path) throws InvalidParamsException, IOException {
+    public void getMedia(HttpServletResponse response, @PathVariable(name = "path") String path) throws InvalidParamsException {
         File file = new File(mediaPath + path);
         try {
             InputStream stream = new FileInputStream(file);

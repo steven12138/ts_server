@@ -4,7 +4,6 @@ import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.twt.ts.model.Account;
 import org.twt.ts.model.repository.AccountRepo;
 import org.twt.ts.model.repository.FriendRepo;
 

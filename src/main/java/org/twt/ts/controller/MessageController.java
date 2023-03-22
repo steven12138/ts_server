@@ -72,7 +72,7 @@ public class MessageController {
                               @RequestParam("desc") String desc,
                               @RequestParam("disabled_list") String disabled
     )
-            throws IOException, InvalidParamsException, NoPrivilegesException, InvalidFileExtException {
+            throws IOException, NoPrivilegesException, InvalidFileExtException {
 
         String path = verifyAndSaveFile(file);
         messageService.sendMessage(
@@ -130,21 +130,21 @@ public class MessageController {
     }
 
     @PostMapping("delete")
-    public Result deleteMessage(@RequestBody BaseID id) throws NoPrivilegesException, InvalidParamsException {
+    public Result deleteMessage(@RequestBody BaseID id) {
 
         messageService.deleteMessage(id.getId());
         return Result.success();
     }
 
     @PostMapping("deletePrivate")
-    public Result deletePrivateMessage(@RequestBody BaseID id) throws NoPrivilegesException, InvalidParamsException {
+    public Result deletePrivateMessage(@RequestBody BaseID id) {
 
         messageService.deletePrivateMessage(id.getId());
         return Result.success();
     }
 
     @PostMapping("get")
-    public Result getMessage(@RequestBody BaseID id) throws NoPrivilegesException, InvalidParamsException {
+    public Result getMessage(@RequestBody BaseID id) throws InvalidParamsException {
 
         return Result.success(
                 messageRepo.findMessageById(id.getId())
@@ -153,7 +153,7 @@ public class MessageController {
     }
 
     @PostMapping("getPrivate")
-    public Result getPrivateMessage(@RequestBody BaseID id) throws NoPrivilegesException, InvalidParamsException {
+    public Result getPrivateMessage(@RequestBody BaseID id) throws InvalidParamsException {
 
         return Result.success(
                 privateMessageRepo.findPrivateMessageByPid(id.getId())
