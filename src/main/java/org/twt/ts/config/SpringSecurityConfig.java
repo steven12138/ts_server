@@ -36,7 +36,8 @@ public class SpringSecurityConfig {
                 .requestMatchers(
                         "/auth/login",
                         "/auth/register",
-                        "/auth/forgetPassword/**")
+                        "/auth/forgetPassword/**",
+                        "assets/**")
                 .permitAll()
                 .anyRequest().authenticated();
 

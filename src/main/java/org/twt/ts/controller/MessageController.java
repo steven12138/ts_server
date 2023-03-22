@@ -11,6 +11,7 @@ import org.twt.ts.dto.Result;
 import org.twt.ts.exception.InvalidParamsException;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.exception.UserNotExistException;
+import org.twt.ts.model.repository.MessageRepo;
 import org.twt.ts.service.MessageService;
 import org.twt.ts.utils.FileTypeUtil;
 import org.twt.ts.utils.ReturnCode;
@@ -39,6 +40,11 @@ public class MessageController {
 
     @Value("${message.acceptExt}")
     private List<String> acceptExt;
+    private final MessageRepo messageRepo;
+
+    public MessageController(MessageRepo messageRepo) {
+        this.messageRepo = messageRepo;
+    }
 
 
     String verifyAndSaveFile(MultipartFile file) throws IOException, InvalidParamsException {
@@ -78,5 +84,21 @@ public class MessageController {
         );
     }
 
+    @GetMapping("getLikeList")
+    public Result getMessageLikeList(@RequestParam(name = "id") String id) throws InvalidParamsException {
+        return Result.success(messageService.getLikesById(id));
+    }
 
+    @PostMapping("updateLike")
+    public Result updateLike(@RequestParam(name = "id") String id) throws NoPrivilegesException, InvalidParamsException {
+        messageService.updateLikes(id);
+        return Result.success();
+    }
+
+    @GetMapping("getLikeStatus")
+    public Result getLikeStatus(@RequestParam(name = "id") String id) throws NoPrivilegesException, InvalidParamsException {
+        return Result.success(
+                messageService.isLiked(id)
+        );
+    }
 }

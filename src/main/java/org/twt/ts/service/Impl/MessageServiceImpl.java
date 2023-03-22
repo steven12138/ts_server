@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.twt.ts.dto.MessageInfo;
 import org.twt.ts.dto.PrivateMessageInfo;
+import org.twt.ts.exception.InvalidParamsException;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.exception.UserNotExistException;
 import org.twt.ts.model.Account;
@@ -79,6 +80,31 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<PrivateMessage> getPrivateList() throws NoPrivilegesException {
         return privateMessageRepo.findPrivateMessagesByReceiver(userInfoUtil.getCurrent());
+    }
+
+    @Override
+    public List<Account> getLikesById(String id) throws InvalidParamsException {
+        Message target = messageRepo.findMessageById(id).orElseThrow(InvalidParamsException::new);
+        return target.getLikes();
+    }
+
+    @Override
+    @Transactional
+    public void updateLikes(String id) throws InvalidParamsException, NoPrivilegesException {
+        Message target = messageRepo.findMessageById(id).orElseThrow(InvalidParamsException::new);
+        List<Account> likes = target.getLikes();
+        if (!likes.remove(userInfoUtil.getCurrent())) likes.add(userInfoUtil.getCurrent());
+        target.setLikes(likes);
+        messageRepo.save(target);
+    }
+
+    @Override
+    public boolean isLiked(String id) throws InvalidParamsException, NoPrivilegesException {
+        return messageRepo
+                .findMessageById(id)
+                .orElseThrow(InvalidParamsException::new)
+                .getLikes()
+                .contains(userInfoUtil.getCurrent());
     }
 
 }
