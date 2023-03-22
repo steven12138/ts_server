@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.twt.ts.dto.MessageInfo;
 import org.twt.ts.dto.PrivateMessageInfo;
 import org.twt.ts.dto.Result;
+import org.twt.ts.exception.InvalidFileExtException;
 import org.twt.ts.exception.InvalidParamsException;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.exception.UserNotExistException;
@@ -18,6 +19,7 @@ import org.twt.ts.utils.ReturnCode;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -47,10 +49,10 @@ public class MessageController {
     }
 
 
-    String verifyAndSaveFile(MultipartFile file) throws IOException, InvalidParamsException {
+    String verifyAndSaveFile(MultipartFile file) throws IOException, InvalidFileExtException {
         if (file.isEmpty()) Result.error(ReturnCode.UnknownError);
         String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
-        if (!acceptExt.contains(ext)) throw new InvalidParamsException();
+        if (!acceptExt.contains(ext)) throw new InvalidFileExtException();
         String path = filePath + "/" + UUID.randomUUID() + "." + ext;
         File dest = new File(path);
         file.transferTo(dest);
@@ -59,10 +61,22 @@ public class MessageController {
 
     @PostMapping("send")
     @Transactional
-    public Result sendMessage(@RequestParam("file") MultipartFile file, @RequestParam("data") MessageInfo messageInfo) throws IOException, InvalidParamsException, NoPrivilegesException {
-        String path = verifyAndSaveFile(file);
+    public Result sendMessage(@RequestParam("file") MultipartFile file,
+                              @RequestParam("title") String title,
+                              @RequestParam("desc") String desc,
+                              @RequestParam("disabled_list") String disabled
+    )
+            throws IOException, InvalidParamsException, NoPrivilegesException, InvalidFileExtException {
 
-        messageService.sendMessage(path, messageInfo);
+        String path = verifyAndSaveFile(file);
+        messageService.sendMessage(
+                path,
+                new MessageInfo(
+                        title,
+                        desc,
+                        Arrays.stream(disabled.split(",")).map(Integer::parseInt).toList()
+                )
+        );
 
         return Result.success();
     }
@@ -71,9 +85,16 @@ public class MessageController {
     @Transactional
     public Result sendPrivateMessage(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("data") PrivateMessageInfo messageInfo) throws IOException, InvalidParamsException, NoPrivilegesException, UserNotExistException {
+            @RequestParam("title") String title,
+            @RequestParam("desc") String desc,
+            @RequestParam("receiver_id") int receiverId) throws IOException, NoPrivilegesException, UserNotExistException, InvalidFileExtException {
         String path = verifyAndSaveFile(file);
-        messageService.sendPrivateMessage(path, messageInfo);
+        messageService.sendPrivateMessage(path,
+                new PrivateMessageInfo(
+                        title,
+                        desc,
+                        receiverId
+                ));
         return Result.success();
     }
 
