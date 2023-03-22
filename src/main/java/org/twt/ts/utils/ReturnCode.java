@@ -30,6 +30,7 @@ public enum ReturnCode {
     UnknownError(50000, "Server Unknown Error"),
     InvalidMethod(50001, "Invalid Method"),
     InvalidParams(50002, "Invalid Request Params"),
+    InvalidFileType(50003, "Invalid File Type"),
 
     //API TESTER
     testAPI(99999, "Test API");

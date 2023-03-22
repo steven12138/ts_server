@@ -44,7 +44,7 @@ public class InfoController {
     public Result uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException, NoPrivilegesException {
         if (file.isEmpty()) Result.error(ReturnCode.UnknownError);
         String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
-        if (!acceptExt.contains(ext)) return Result.error(ReturnCode.InvalidParams);
+        if (!acceptExt.contains(ext)) return Result.error(ReturnCode.InvalidFileType);
         Account target = userInfoUtil.getCurrent();
         String name = target.getId() + "." + ext;
         File dest = new File(filePath + "/" + name);

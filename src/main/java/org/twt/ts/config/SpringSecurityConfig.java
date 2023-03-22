@@ -37,7 +37,7 @@ public class SpringSecurityConfig {
                         "/auth/login",
                         "/auth/register",
                         "/auth/forgetPassword/**",
-                        "assets/**")
+                        "/assets/**")
                 .permitAll()
                 .anyRequest().authenticated();
 
