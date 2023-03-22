@@ -107,4 +107,15 @@ public class MessageServiceImpl implements MessageService {
                 .contains(userInfoUtil.getCurrent());
     }
 
+    @Override
+    public void deleteMessage(String id) {
+        messageRepo.deleteMessageById(id);
+    }
+
+    @Override
+    public void deletePrivateMessage(String id) {
+        privateMessageRepo.deletePrivateMessageByPid(id);
+    }
+
+
 }

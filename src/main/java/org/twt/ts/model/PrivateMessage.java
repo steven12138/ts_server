@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PrivateMessage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "private_message_id")
-    private int pe_id;
+    private String pid;
     @Column(name = "title")
     private String title;
 

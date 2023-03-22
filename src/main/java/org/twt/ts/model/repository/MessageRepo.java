@@ -15,4 +15,6 @@ public interface MessageRepo extends JpaRepository<Message, String> {
 
     @Query("select m from Message m where m.sender in ?1")
     List<Message> findMessagesBySenderIn(Collection<Account> sender);
+
+    void deleteMessageById(String id);
 }

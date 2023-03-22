@@ -25,4 +25,8 @@ public interface MessageService {
     void updateLikes(String id) throws InvalidParamsException, NoPrivilegesException;
 
     boolean isLiked(String id) throws InvalidParamsException, NoPrivilegesException;
+
+    void deleteMessage(String id);
+
+    void deletePrivateMessage(String id);
 }
