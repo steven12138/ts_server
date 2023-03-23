@@ -3,6 +3,7 @@ package org.twt.ts.service.Impl;
 import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.twt.ts.dto.ShortUser;
 import org.twt.ts.exception.InvalidArgument;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.exception.UsernameExistException;
@@ -30,9 +31,9 @@ public class FriendServiceImpl implements FriendService {
     private FriendRequestRepo requestRepo;
 
     @Override
-    public List<Account> getFriendList() throws NoPrivilegesException {
+    public List<ShortUser> getFriendList() throws NoPrivilegesException {
         Account target = userInfoUtil.getCurrent();
-        return friendRepo.findFriend(target.getId());
+        return friendRepo.findFriendShort(target.getId());
     }
 
     @Override
@@ -58,13 +59,14 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<FriendRequest> getRequest() throws NoPrivilegesException {
-        return requestRepo.findFriendRequestsByFrom(userInfoUtil.getCurrent());
+    public List<ShortUser> getRequest() throws NoPrivilegesException {
+        return requestRepo.findRequest(userInfoUtil.getCurrent());
     }
 
     @Override
-    public List<Account> searchFriend(String keywords) {
-        return accountRepo.findAccountsByNicknameLike(keywords);
+    public List<ShortUser> searchFriend(String keywords) {
+        System.out.println(userInfoUtil.getUserId());
+        return accountRepo.searchAccount(keywords, userInfoUtil.getUserId());
     }
 
     @Override

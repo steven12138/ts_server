@@ -39,6 +39,7 @@ public class MessageServiceImpl implements MessageService {
     @Transactional
     public List<Message> getList() throws NoPrivilegesException {
         List<Account> friends = friendRepo.findFriend(userInfoUtil.getUserId());
+        friends.add(userInfoUtil.getCurrent());
         Account self = userInfoUtil.getCurrent();
         return messageRepo.findMessagesBySenderIn(friends).stream()
                 .filter(e -> !e.getDisabled().contains(self))
@@ -108,13 +109,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteMessage(String id) {
-        messageRepo.deleteMessageById(id);
+    public void deleteMessage(String id) throws NoPrivilegesException {
+        messageRepo.deleteMessageByIdAndSender(id, userInfoUtil.getCurrent());
     }
 
     @Override
     public void deletePrivateMessage(String id) {
         privateMessageRepo.deletePrivateMessageByPid(id);
+    }
+
+    @Override
+    public List<Message> getMine() throws NoPrivilegesException {
+        return messageRepo.findMessagesBySender(userInfoUtil.getCurrent());
     }
 
 

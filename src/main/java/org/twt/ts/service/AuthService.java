@@ -10,12 +10,12 @@ public interface AuthService {
     BasicUserInfo login(User user) throws UsernamePasswordNotMatchException, UserForbiddenException;
 
 
-    void register(RegisterUser registerUser) throws UsernameExistException;
+    void register(RegisterUser registerUser) throws UsernameExistException, InvalidArgument;
 
     void modifyPassword(PasswordPair passwordPair) throws PasswordNotMatchException, NoPrivilegesException;
 
-    void modifyPassword(int id, String securityAnswer, String newPassword) throws SecurityAnswerException, UsernameExistException;
+    void modifyPassword(String user, String securityAnswer, String newPassword) throws SecurityAnswerException, UserNotExistException;
 
-    String getSecurityQuestion(int id) throws UsernameExistException;
+    String getSecurityQuestion(String username) throws UserNotExistException;
 
 }

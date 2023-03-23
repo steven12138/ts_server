@@ -30,23 +30,24 @@ public class AuthController {
         return Result.success("Password Reset Success");
     }
 
-    @GetMapping("/forgetPassword/{id}")
-    Result getSecurityQuestion(@PathVariable int id) throws UsernameExistException {
+    @GetMapping("/forgetPassword/{user}")
+    Result getSecurityQuestion(@PathVariable String user) throws UserNotExistException {
         Map<String, String> result = new HashMap<>();
-        result.put("question", authService.getSecurityQuestion(id));
+        result.put("question", authService.getSecurityQuestion(user));
         return Result.success(result);
     }
 
-    @PostMapping("/forgetPassword/{id}")
-    Result resetPassword(@RequestBody SecurityAnswerPair pair, @PathVariable int id) throws SecurityAnswerException, UsernameExistException {
-        authService.modifyPassword(id, pair.getAnswer(), pair.getNewPassword());
+    @PostMapping("/forgetPassword/{user}")
+    Result resetPassword(@RequestBody SecurityAnswerPair pair, @PathVariable String user)
+            throws SecurityAnswerException, UserNotExistException {
+        authService.modifyPassword(user, pair.getAnswer(), pair.getNewPassword());
         return Result.success("Password Reset Success");
     }
 
     @PostMapping("/register")
-    Result register(@RequestBody RegisterUser user) throws UsernameExistException {
+    Result register(@RequestBody RegisterUser user) throws UsernameExistException, InvalidArgument {
         authService.register(user);
-        return Result.success("success");
+        return Result.success();
     }
 
 }

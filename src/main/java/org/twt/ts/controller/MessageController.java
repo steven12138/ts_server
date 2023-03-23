@@ -57,6 +57,7 @@ public class MessageController {
     String verifyAndSaveFile(MultipartFile file) throws IOException, InvalidFileExtException {
         if (file.isEmpty()) Result.error(ReturnCode.UnknownError);
         String ext = FileTypeUtil.getFileTypeBySuffix(Objects.requireNonNull(file.getOriginalFilename()));
+        System.out.println(ext);
         if (!acceptExt.contains(ext)) throw new InvalidFileExtException();
         String name = UUID.randomUUID() + "." + ext;
         String path = filePath + "/" + name;
@@ -80,7 +81,7 @@ public class MessageController {
                 new MessageInfo(
                         title,
                         desc,
-                        Arrays.stream(disabled.split(",")).map(Integer::parseInt).toList()
+                        Objects.equals(disabled, "") ? null : Arrays.stream(disabled.split(",")).map(Integer::parseInt).toList()
                 )
         );
 
@@ -103,6 +104,12 @@ public class MessageController {
                 ));
         return Result.success();
     }
+
+    @GetMapping("mine")
+    public Result getMine() throws NoPrivilegesException {
+        return Result.success(messageService.getMine());
+    }
+
 
     @GetMapping("privateList")
     public Result getPrivateMessageList() throws NoPrivilegesException {
@@ -130,7 +137,7 @@ public class MessageController {
     }
 
     @PostMapping("delete")
-    public Result deleteMessage(@RequestBody BaseID id) {
+    public Result deleteMessage(@RequestBody BaseID id) throws NoPrivilegesException {
 
         messageService.deleteMessage(id.getId());
         return Result.success();

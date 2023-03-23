@@ -2,6 +2,7 @@ package org.twt.ts.controller;
 
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+import org.twt.ts.dto.BaseID;
 import org.twt.ts.dto.RequestInfo;
 import org.twt.ts.dto.Result;
 import org.twt.ts.exception.InvalidArgument;
@@ -33,21 +34,22 @@ public class FriendController {
         return Result.success();
     }
 
-    @GetMapping("Search")
+    @GetMapping("search")
     public Result searchFriend(@RequestParam(name = "q") String keywords) {
+        System.out.println(keywords);
         return Result.success(friendService.searchFriend(keywords));
     }
 
 
     @PostMapping("acceptRequest")
-    public Result acceptRequest(@RequestBody int requestId) throws InvalidArgument {
-        friendService.acceptRequest(requestId);
+    public Result acceptRequest(@RequestBody BaseID requestId) throws InvalidArgument {
+        friendService.acceptRequest(Integer.parseInt(requestId.getId()));
         return Result.success();
     }
 
     @PostMapping("remove")
-    public Result remove(@RequestBody int requestId) {
-        friendService.removeFriend(requestId);
+    public Result remove(@RequestBody BaseID requestId) {
+        friendService.removeFriend(Integer.parseInt(requestId.getId()));
         return Result.success();
     }
 

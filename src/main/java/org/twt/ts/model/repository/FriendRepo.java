@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.twt.ts.dto.ShortUser;
 import org.twt.ts.model.Account;
 import org.twt.ts.model.Friend;
 
@@ -13,6 +14,9 @@ public interface FriendRepo extends JpaRepository<Friend, Integer> {
 
     @Query(value = "select friend.v from Friend friend where friend.u.id=?1")
     List<Account> findFriend(int id);
+
+    @Query(value = "select new org.twt.ts.dto.ShortUser(friend.v.id,friend.v.username,friend.v.nickname,friend.v.avatar) from Friend friend where friend.u.id=?1")
+    List<ShortUser> findFriendShort(int id);
 
     @Transactional
     @Modifying

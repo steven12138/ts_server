@@ -26,7 +26,7 @@ jwt:
 
 message:
   path: C:\\Users\\m1861\\UserData\\tempFile\\
-  acceptExt: mp3,m4a,wav
+  acceptExt: mp3,m4a,wav,aac
 
 avatar:
   path: C:\\Users\\m1861\\UserData\\tempFile\\avatar\\

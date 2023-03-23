@@ -52,7 +52,12 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public void register(RegisterUser registerUser) throws UsernameExistException {
+    public void register(RegisterUser registerUser) throws UsernameExistException, InvalidArgument {
+        if (registerUser.getUsername().equals("") || registerUser.getPassword().equals("")
+                || registerUser.getNickname().equals("") || registerUser.getSecurityAnswer().equals("")
+                || registerUser.getSecurityQuestion().equals("")) {
+            throw new InvalidArgument();
+        }
         Account user = new Account();
         BeanUtils.copyProperties(registerUser, user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -78,9 +83,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void modifyPassword(int id, @NotNull String securityAnswer, String newPassword) throws SecurityAnswerException, UsernameExistException {
-        Account target = accountRepo.findAccountById(id)
-                .orElseThrow(UsernameExistException::new);
+    public void modifyPassword(String id, @NotNull String securityAnswer, String newPassword) throws SecurityAnswerException, UserNotExistException {
+        Account target = accountRepo.findAccountByUsername(id)
+                .orElseThrow(UserNotExistException::new);
 
         if (!securityAnswer.equals(target.getSecurityAnswer())) throw new SecurityAnswerException();
 
@@ -90,9 +95,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String getSecurityQuestion(int id) throws UsernameExistException {
-        Account target = accountRepo.findAccountById(id)
-                .orElseThrow(UsernameExistException::new);
+    public String getSecurityQuestion(String user) throws UserNotExistException {
+        Account target = accountRepo.findAccountByUsername(user)
+                .orElseThrow(UserNotExistException::new);
         return target.getSecurityQuestion();
     }
 

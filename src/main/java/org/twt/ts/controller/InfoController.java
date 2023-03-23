@@ -51,6 +51,12 @@ public class InfoController {
         file.transferTo(dest);
         target.setAvatar(name);
         accountRepo.save(target);
-        return Result.success("success");
+        return Result.success();
+    }
+
+    @GetMapping("avatar")
+    public Result getAvatarPath() throws NoPrivilegesException {
+        Account target = userInfoUtil.getCurrent();
+        return Result.success(target.getAvatar());
     }
 }
