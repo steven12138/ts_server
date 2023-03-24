@@ -16,7 +16,7 @@ spring:
     name: ts
   servlet:
     multipart:
-      max-file-size: 100MB
+      max-file-size: 10MB
 
 jwt:
   name: Authorization

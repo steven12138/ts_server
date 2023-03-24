@@ -1,6 +1,7 @@
 package org.twt.ts.controller;
 
 import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,6 +61,7 @@ public class InfoController {
         return Result.success(target.getAvatar());
     }
 
+    @Transactional
     @PostMapping("nickname/{name}")
     public Result changeNickname(@PathVariable String name) throws NoPrivilegesException {
         Account t = userInfoUtil.getCurrent();
@@ -67,4 +69,11 @@ public class InfoController {
         accountRepo.save(t);
         return Result.success();
     }
+
+    @GetMapping("nickname/update")
+    public Result changeNickname() throws NoPrivilegesException {
+        Account t = userInfoUtil.getCurrent();
+        return Result.success(t.getNickname());
+    }
+
 }
