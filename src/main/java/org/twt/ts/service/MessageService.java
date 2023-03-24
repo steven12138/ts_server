@@ -1,18 +1,21 @@
 package org.twt.ts.service;
 
+import jakarta.transaction.Transactional;
 import org.twt.ts.dto.MessageInfo;
 import org.twt.ts.dto.PrivateMessageInfo;
+import org.twt.ts.dto.ShortUser;
 import org.twt.ts.exception.InvalidParamsException;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.exception.UserNotExistException;
-import org.twt.ts.model.Account;
 import org.twt.ts.model.Message;
 import org.twt.ts.model.PrivateMessage;
 
 import java.util.List;
 
 public interface MessageService {
-    List<Message> getList() throws NoPrivilegesException;
+
+    @Transactional
+    List<Message> getList(int page) throws NoPrivilegesException;
 
     void sendMessage(String filename, MessageInfo info) throws NoPrivilegesException;
 
@@ -20,7 +23,7 @@ public interface MessageService {
 
     List<PrivateMessage> getPrivateList() throws NoPrivilegesException;
 
-    List<Account> getLikesById(String id) throws InvalidParamsException;
+    List<ShortUser> getLikesById(String id) throws InvalidParamsException;
 
     void updateLikes(String id) throws InvalidParamsException, NoPrivilegesException;
 

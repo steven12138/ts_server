@@ -21,10 +21,7 @@ import org.twt.ts.utils.ReturnCode;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("message")
@@ -34,8 +31,9 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping("list")
-    public Result getList() throws NoPrivilegesException {
-        return Result.success(messageService.getList());
+    public Result getList(@RequestParam(name = "page") int page) throws NoPrivilegesException {
+        System.out.println(page);
+        return Result.success(messageService.getList(page));
     }
 
     @Value("${message.path}")
@@ -119,20 +117,23 @@ public class MessageController {
     }
 
     @GetMapping("getLikeList")
-    public Result getMessageLikeList(@RequestBody BaseID id) throws InvalidParamsException {
-        return Result.success(messageService.getLikesById(id.getId()));
+    public Result getMessageLikeList(@RequestParam(name = "id") String id) throws InvalidParamsException {
+        return Result.success(messageService.getLikesById(id));
     }
 
-    @PostMapping("updateLike")
-    public Result updateLike(@RequestBody BaseID id) throws NoPrivilegesException, InvalidParamsException {
-        messageService.updateLikes(id.getId());
+    @GetMapping("updateLike")
+    public Result updateLike(@RequestParam(name = "id") String id) throws NoPrivilegesException, InvalidParamsException {
+        messageService.updateLikes(id);
         return Result.success();
     }
 
     @GetMapping("getLikeStatus")
-    public Result getLikeStatus(@RequestBody BaseID id) throws NoPrivilegesException, InvalidParamsException {
+    public Result getLikeStatus(@RequestParam(name = "id") String id) throws NoPrivilegesException, InvalidParamsException {
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("status",
+                messageService.isLiked(id));
         return Result.success(
-                messageService.isLiked(id.getId())
+                map
         );
     }
 

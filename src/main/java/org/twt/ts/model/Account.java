@@ -11,6 +11,7 @@ import lombok.*;
 @Entity
 @Table(name = "users")
 @Builder
+@ToString
 public class Account {
 
     @Column(name = "id")

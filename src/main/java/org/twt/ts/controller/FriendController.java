@@ -19,7 +19,6 @@ public class FriendController {
 
     @GetMapping("/list")
     public Result getFriendList() throws NoPrivilegesException {
-
         return Result.success(friendService.getFriendList());
     }
 

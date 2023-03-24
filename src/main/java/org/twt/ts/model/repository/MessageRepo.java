@@ -1,5 +1,6 @@
 package org.twt.ts.model.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +16,9 @@ public interface MessageRepo extends JpaRepository<Message, String> {
 
     Optional<Message> findMessageById(String id);
 
-    @Query("select m from Message m where m.sender in ?1")
-    List<Message> findMessagesBySenderIn(Collection<Account> sender);
+
+    @Query("SELECT m FROM Message m WHERE m.sender IN ?1 AND NOT EXISTS (SELECT d FROM m.disabled d WHERE d=?2) order by m.dateTime")
+    List<Message> findMessagesBySenderIn(Collection<Account> sender, Account current,Pageable pageable);
 
     @Transactional
     @Modifying

@@ -2,9 +2,11 @@ package org.twt.ts.service.Impl;
 
 import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.twt.ts.dto.MessageInfo;
 import org.twt.ts.dto.PrivateMessageInfo;
+import org.twt.ts.dto.ShortUser;
 import org.twt.ts.exception.InvalidParamsException;
 import org.twt.ts.exception.NoPrivilegesException;
 import org.twt.ts.exception.UserNotExistException;
@@ -37,13 +39,13 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional
-    public List<Message> getList() throws NoPrivilegesException {
+    public List<Message> getList(int page) throws NoPrivilegesException {
         List<Account> friends = friendRepo.findFriend(userInfoUtil.getUserId());
         friends.add(userInfoUtil.getCurrent());
-        Account self = userInfoUtil.getCurrent();
-        return messageRepo.findMessagesBySenderIn(friends).stream()
-                .filter(e -> !e.getDisabled().contains(self))
-                .toList();
+        System.out.println(friends);
+        return messageRepo.findMessagesBySenderIn(friends, userInfoUtil.getCurrent(), PageRequest.of(
+                page, 10
+        ));
     }
 
     @Override
@@ -84,17 +86,25 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Account> getLikesById(String id) throws InvalidParamsException {
+    public List<ShortUser> getLikesById(String id) throws InvalidParamsException {
         Message target = messageRepo.findMessageById(id).orElseThrow(InvalidParamsException::new);
-        return target.getLikes();
+        return target.getLikes().stream().map(e -> new ShortUser(e.getId(), e.getUsername(), e.getNickname(), e.getAvatar())).toList();
     }
 
     @Override
     @Transactional
     public void updateLikes(String id) throws InvalidParamsException, NoPrivilegesException {
         Message target = messageRepo.findMessageById(id).orElseThrow(InvalidParamsException::new);
+        Account self = userInfoUtil.getCurrent();
         List<Account> likes = target.getLikes();
-        if (!likes.remove(userInfoUtil.getCurrent())) likes.add(userInfoUtil.getCurrent());
+        System.out.println(likes);
+        if (!likes.contains(self)) {
+            System.out.println("add");
+            likes.add(self);
+        } else {
+            System.out.println("stop");
+            likes.remove(self);
+        }
         target.setLikes(likes);
         messageRepo.save(target);
     }
