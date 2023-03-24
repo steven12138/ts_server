@@ -59,4 +59,12 @@ public class InfoController {
         Account target = userInfoUtil.getCurrent();
         return Result.success(target.getAvatar());
     }
+
+    @PostMapping("nickname/{name}")
+    public Result changeNickname(@PathVariable String name) throws NoPrivilegesException {
+        Account t = userInfoUtil.getCurrent();
+        t.setNickname(name);
+        accountRepo.save(t);
+        return Result.success();
+    }
 }
