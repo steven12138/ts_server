@@ -20,6 +20,7 @@ import org.twt.ts.model.repository.PrivateMessageRepo;
 import org.twt.ts.service.MessageService;
 import org.twt.ts.utils.UserInfoUtil;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -56,6 +57,7 @@ public class MessageServiceImpl implements MessageService {
                 .file(filename)
                 .title(info.getTitle())
                 .desc(info.getDescription())
+                .dateTime(LocalDateTime.now())
                 .sender(userInfoUtil.getCurrent())
                 .disabled(disabled_body)
                 .build();
